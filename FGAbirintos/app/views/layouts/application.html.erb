@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Maze" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "FGAbirintos" %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag "application", :media => "all" %>
@@ -49,10 +49,12 @@
           <div class="well sidebar-nav">
             <h3>Páginas</h3>
             <ul class="nav nav-list">
-              <li><%= link_to "Sua página", root_path  %></li>
-              <li><%= link_to "Gerar labirintos", root_path  %></li>
-              <li><%= link_to "Ver labirintos gerados", root_path  %></li>
-              <li><%= link_to "Fórum de postagens", root_path  %></li>
+              <% if user_signed_in? %>
+                <li><%= link_to "Sua página", root_path  %></li>
+              <% end %>
+                <li><%= link_to "Gerar labirintos", root_path  %></li>
+                <li><%= link_to "Ver labirintos gerados", root_path  %></li>
+                <li><%= link_to "Fórum de postagens", root_path  %></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
