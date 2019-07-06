@@ -1,6 +1,5 @@
 class MazesController < ApplicationController
-  before_action :set_maze, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_maze, only: [:show, :edit, :update, :destroy,:generateMaze]
   # GET /mazes
   # GET /mazes.json
   def index
@@ -20,12 +19,15 @@ class MazesController < ApplicationController
   # GET /mazes/1/edit
   def edit
   end
+  def generateMaze
+  end
+
 
   # POST /mazes
   # POST /mazes.json
   def create
     @maze = Maze.new(maze_params)
-
+    @maze.generateMaze
     respond_to do |format|
       if @maze.save
         format.html { redirect_to @maze, notice: 'Maze was successfully created.' }
@@ -35,6 +37,8 @@ class MazesController < ApplicationController
         format.json { render json: @maze.errors, status: :unprocessable_entity }
       end
     end
+    #respond_to do |format|
+    #format.html { redirect_to new_maze_path}
   end
 
   # PATCH/PUT /mazes/1
