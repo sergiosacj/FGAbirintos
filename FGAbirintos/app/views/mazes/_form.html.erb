@@ -1,0 +1,42 @@
+<%= form_with(model: maze, local: true) do |form| %>
+  <% if maze.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(maze.errors.count, "error") %> prohibited this maze from being saved:</h2>
+
+      <ul>
+      <% maze.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :adjacencyList %>
+    <%= form.text_area :adjacencyList %>
+  </div>
+
+  <div class="field">
+    <%= form.label :solutionMaze %>
+    <%= form.text_area :solutionMaze %>
+  </div>
+
+  <div class="field">
+    <%= form.label :startingPoint %>
+    <%= form.text_field :startingPoint %>
+  </div>
+
+  <div class="field">
+    <%= form.label :endPoint %>
+    <%= form.text_field :endPoint %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sizeMaze %>
+    <%= form.text_field :sizeMaze %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

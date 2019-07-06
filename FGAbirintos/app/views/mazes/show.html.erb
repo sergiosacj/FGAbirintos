@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Adjacencylist:</strong>
+  <%= @maze.adjacencyList %>
+</p>
+
+<p>
+  <strong>Solutionmaze:</strong>
+  <%= @maze.solutionMaze %>
+</p>
+
+<p>
+  <strong>Startingpoint:</strong>
+  <%= @maze.startingPoint %>
+</p>
+
+<p>
+  <strong>Endpoint:</strong>
+  <%= @maze.endPoint %>
+</p>
+
+<p>
+  <strong>Sizemaze:</strong>
+  <%= @maze.sizeMaze %>
+</p>
+
+<%= link_to 'Edit', edit_maze_path(@maze) %> |
+<%= link_to 'Back', mazes_path %>
