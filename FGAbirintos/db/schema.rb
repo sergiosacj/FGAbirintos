@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_04_110324) do
+ActiveRecord::Schema.define(version: 2019_07_06_203020) do
+
+  create_table "commentaries", force: :cascade do |t|
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "mazes", force: :cascade do |t|
+    t.text "adjacencyList"
+    t.text "solutionMaze"
+    t.string "startingPoint"
+    t.string "endPoint"
+    t.integer "sizeMaze"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

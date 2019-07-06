@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  adjacencyList: MyText
+  solutionMaze: MyText
+  startingPoint: MyString
+  endPoint: MyString
+  sizeMaze: 
+
+two:
+  adjacencyList: MyText
+  solutionMaze: MyText
+  startingPoint: MyString
+  endPoint: MyString
+  sizeMaze: 
