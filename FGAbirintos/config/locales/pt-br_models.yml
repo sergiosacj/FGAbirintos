@@ -1,0 +1,16 @@
+"pt-BR":
+  activerecord:
+    models:
+      maze: Labirinto
+      commentary: Comentário
+    attributes:
+      maze:
+        id: "Código"
+        adjacencyList: "Lista de Adjacências"
+        solutionMaze: "Solução do Labirinto"
+        startingPoint: "Ponto de partida"
+        endPoint: "Destino"
+        sizeMaze: "Tamanho do Labirinto"
+        created_at: "Criado em"
+      commentary:
+        comment: "Comentário"
