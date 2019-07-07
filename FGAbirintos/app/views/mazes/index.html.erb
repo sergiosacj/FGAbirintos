@@ -5,9 +5,6 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:adjacencyList) %></th>
-      <th><%= model_class.human_attribute_name(:solutionMaze) %></th>
       <th><%= model_class.human_attribute_name(:startingPoint) %></th>
       <th><%= model_class.human_attribute_name(:endPoint) %></th>
       <th><%= model_class.human_attribute_name(:sizeMaze) %></th>
@@ -18,9 +15,6 @@
   <tbody>
     <% @mazes.each do |maze| %>
       <tr>
-        <td><%= link_to maze.id, maze_path(maze) %></td>
-        <td><%= maze.adjacencyList %></td>
-        <td><%= maze.solutionMaze %></td>
         <td><%= maze.startingPoint %></td>
         <td><%= maze.endPoint %></td>
         <td><%= maze.sizeMaze %></td>
@@ -28,8 +22,6 @@
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
                       maze_path(maze), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_maze_path(maze), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       maze_path(maze),
                       :method => :delete,
@@ -40,7 +32,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_maze_path,
-            :class => 'btn btn-primary' %>

@@ -1,5 +1,7 @@
 class MazesController < ApplicationController
   before_action :set_maze, only: [:show, :edit, :update, :destroy,:generateMaze]
+  before_action :authenticate_user!
+
   # GET /mazes
   # GET /mazes.json
   def index
@@ -19,6 +21,7 @@ class MazesController < ApplicationController
   # GET /mazes/1/edit
   def edit
   end
+  
   def generateMaze
   end
 
@@ -26,11 +29,10 @@ class MazesController < ApplicationController
   # POST /mazes
   # POST /mazes.json
   def create
-    @maze = Maze.new(maze_params)
-    @maze.generateMaze
+    @maze = current_user.mazes.new(maze_params)
     respond_to do |format|
       if @maze.save
-        format.html { redirect_to @maze, notice: 'Maze was successfully created.' }
+        format.html { redirect_to @maze, notice: 'Labirinto criado com sucesso.' }
         format.json { render :show, status: :created, location: @maze }
       else
         format.html { render :new }
@@ -46,7 +48,7 @@ class MazesController < ApplicationController
   def update
     respond_to do |format|
       if @maze.update(maze_params)
-        format.html { redirect_to @maze, notice: 'Maze was successfully updated.' }
+        format.html { redirect_to @maze, notice: 'Labirinto atualizado com sucesso.' }
         format.json { render :show, status: :ok, location: @maze }
       else
         format.html { render :edit }
@@ -60,7 +62,7 @@ class MazesController < ApplicationController
   def destroy
     @maze.destroy
     respond_to do |format|
-      format.html { redirect_to mazes_url, notice: 'Maze was successfully destroyed.' }
+      format.html { redirect_to mazes_url, notice: 'Labirinto destruído com sucesso.' }
       format.json { head :no_content }
     end
   end

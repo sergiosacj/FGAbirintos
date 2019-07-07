@@ -49,10 +49,7 @@
           <div class="well sidebar-nav">
             <h3>Páginas</h3>
             <ul class="nav nav-list">
-              <% if user_signed_in? %>
-                <li><%= link_to "Sua página", root_path  %></li>
-              <% end %>
-                <li><%= link_to "Gerar labirintos", root_path  %></li>
+                <li><%= link_to "Gerar labirintos", new_maze_path  %></li>
                 <li><%= link_to "Ver labirintos gerados", mazes_path  %></li>
                 <li><%= link_to "Fórum de postagens", root_path  %></li>
             </ul>
