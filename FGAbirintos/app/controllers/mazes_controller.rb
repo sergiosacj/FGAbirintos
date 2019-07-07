@@ -1,5 +1,5 @@
 class MazesController < ApplicationController
-  before_action :set_maze, only: [:show, :edit, :update, :destroy,:generateMaze]
+  before_action :set_maze, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /mazes
@@ -16,13 +16,56 @@ class MazesController < ApplicationController
   # GET /mazes/new
   def new
     @maze = Maze.new
+    Maze.adjacencyList = []
   end
 
   # GET /mazes/1/edit
   def edit
   end
-  
+  def validateMaze
+    if @maze.sizeMaze<3
+      @maze.sizeMaze = 3
+    elsif @maze.sizeMaze>=101
+      @maze.sizeMaze = 100
+    end
+    if @maze.startingPoint>=@maze.sizeMaze.to_s || @maze.startingPoint<"0"
+      @maze.startingPoint = 0
+    end
+    if @maze.endPoint>=@maze.sizeMaze.to_s || @maze.endPoint<"0"
+      @maze.endPoint = @maze.sizeMaze*@maze.sizeMaze-1
+    end
+  end
+
+  def arraysToString
+    #____________________________________________
+    @maze.adjacencyList = ""
+    i = 0
+    until i==@maze.sizeMaze
+      @maze.adjacencyList+=@adjacencyList[i].join(",")
+      if i!= @maze.sizeMaze-1
+          @maze.adjacencyList+=","
+      end
+      i+=1
+    end
+    #____________________________________________
+  end
+
   def generateMaze
+    validateMaze
+    # ------ Gerador do labirinto Com 0, codigo temporario ate implementar o gerador de labs
+    i = 0
+    @adjacencyList = []
+    until i==@maze.sizeMaze
+      j = 0
+      @adjacencyList.push([])
+      until j==@maze.sizeMaze
+        @adjacencyList[i].push("0")
+        j+=1
+      end
+      i+=1
+    end
+    #____________________________________
+    arraysToString
   end
 
 
@@ -30,6 +73,7 @@ class MazesController < ApplicationController
   # POST /mazes.json
   def create
     @maze = current_user.mazes.new(maze_params)
+    generateMaze
     respond_to do |format|
       if @maze.save
         format.html { redirect_to @maze, notice: 'Labirinto criado com sucesso.' }
