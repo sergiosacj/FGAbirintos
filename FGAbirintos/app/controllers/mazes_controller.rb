@@ -16,7 +16,6 @@ class MazesController < ApplicationController
   # GET /mazes/new
   def new
     @maze = Maze.new
-    Maze.adjacencyList = []
   end
 
   # GET /mazes/1/edit
@@ -28,6 +27,7 @@ class MazesController < ApplicationController
     elsif @maze.sizeMaze>=101
       @maze.sizeMaze = 100
     end
+
     if @maze.startingPoint>=@maze.sizeMaze.to_s || @maze.startingPoint<"0"
       @maze.startingPoint = 0
     end
@@ -41,7 +41,7 @@ class MazesController < ApplicationController
     @maze.adjacencyList = ""
     i = 0
     until i==@maze.sizeMaze
-      @maze.adjacencyList+=@adjacencyList[i].join(",")
+      @maze.adjacencyList+=@generatedMaze[i].join(",")
       if i!= @maze.sizeMaze-1
           @maze.adjacencyList+=","
       end
@@ -49,25 +49,38 @@ class MazesController < ApplicationController
     end
     #____________________________________________
   end
+  def drawMaze(maze)#string que aponta ou para o labirinto ou para a solucao dele
+    maze = maze.spit(",")
+    @maze.sizeMaze
+    i = 0
+    until i==@maze.sizeMaze
+      j = 0
+      until j==@maze.sizeMaze
+        print maze[i+j]+" "
+        j+=1
+      end
+      puts "\n"
+      i+=1
+    end
+  end
 
   def generateMaze
     validateMaze
-    # ------ Gerador do labirinto Com 0, codigo temporario ate implementar o gerador de labs
+    # ------ Gerador do labirinto Com 0
     i = 0
-    @adjacencyList = []
+    @generatedMaze = []
     until i==@maze.sizeMaze
       j = 0
-      @adjacencyList.push([])
+      @generatedMaze.push([])
       until j==@maze.sizeMaze
-        @adjacencyList[i].push("0")
+        @generatedMaze[i].push(0)
         j+=1
       end
       i+=1
     end
-    #____________________________________
+    #____________________________________ Preencher Labirinto
     arraysToString
   end
-
 
   # POST /mazes
   # POST /mazes.json
