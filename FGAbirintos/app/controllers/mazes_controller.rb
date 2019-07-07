@@ -21,6 +21,7 @@ class MazesController < ApplicationController
   # GET /mazes/1/edit
   def edit
   end
+
   def validateMaze
     if @maze.sizeMaze<3
       @maze.sizeMaze = 3
@@ -39,29 +40,18 @@ class MazesController < ApplicationController
   def arraysToString
     #____________________________________________
     @maze.adjacencyList = ""
+    @maze.solutionMaze = ""
     i = 0
     until i==@maze.sizeMaze
       @maze.adjacencyList+=@generatedMaze[i].join(",")
+      @maze.solutionMaze+=@generatedMaze[i].join(",")
       if i!= @maze.sizeMaze-1
           @maze.adjacencyList+=","
+          @maze.solutionMaze+=","
       end
       i+=1
     end
     #____________________________________________
-  end
-  def drawMaze(maze)#string que aponta ou para o labirinto ou para a solucao dele
-    maze = maze.spit(",")
-    @maze.sizeMaze
-    i = 0
-    until i==@maze.sizeMaze
-      j = 0
-      until j==@maze.sizeMaze
-        print maze[i+j]+" "
-        j+=1
-      end
-      puts "\n"
-      i+=1
-    end
   end
 
   def generateMaze
