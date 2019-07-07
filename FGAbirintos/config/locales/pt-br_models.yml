@@ -17,6 +17,7 @@
         comment: "Comentário"
       user:
         id: "Código"
+        user: Usuário
         startingPoint: "Ponto de partida"
         endPoint: "Destino"
         sizeMaze: "Tamanho do Labirinto"

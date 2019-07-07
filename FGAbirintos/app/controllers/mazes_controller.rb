@@ -5,7 +5,7 @@ class MazesController < ApplicationController
   # GET /mazes
   # GET /mazes.json
   def index
-    @mazes = Maze.all
+    @mazes = current_user.mazes
   end
 
   # GET /mazes/1

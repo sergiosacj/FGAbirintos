@@ -4,7 +4,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:user) %></th>
       <th><%= model_class.human_attribute_name(:startingPoint) %></th>
       <th><%= model_class.human_attribute_name(:endPoint) %></th>
       <th><%= model_class.human_attribute_name(:sizeMaze) %></th>
@@ -16,7 +16,7 @@
         <% @mazes = user.mazes %>
         <% @mazes.each do |maze| %>
         <tr>
-            <td><%= user.id %></td>
+            <td><%= user.email %></td>
             <td><%= maze.startingPoint %></td>
             <td><%= maze.endPoint %></td>
             <td><%= maze.sizeMaze %></td>
