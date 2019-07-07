@@ -3,6 +3,7 @@
     models:
       maze: Labirinto
       commentary: Comentário
+      user: Usuário
     attributes:
       maze:
         id: "Código"
@@ -14,3 +15,9 @@
         created_at: "Criado em"
       commentary:
         comment: "Comentário"
+      user:
+        id: "Código"
+        startingPoint: "Ponto de partida"
+        endPoint: "Destino"
+        sizeMaze: "Tamanho do Labirinto"
+        created_at: "Criado em"
