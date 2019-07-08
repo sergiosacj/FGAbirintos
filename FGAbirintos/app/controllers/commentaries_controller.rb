@@ -9,12 +9,14 @@ class CommentariesController < ApplicationController
 
   # GET /commentaries/1
   # GET /commentaries/1.json
-  def show
+  def shows
   end
 
   # GET /commentaries/new
   def new
     @commentary = Commentary.new
+    @maze = Maze.new
+    @maze.id = params[:maze_id]
   end
 
   # GET /commentaries/1/edit
@@ -24,11 +26,12 @@ class CommentariesController < ApplicationController
   # POST /commentaries
   # POST /commentaries.json
   def create
-    @commentary = current_user.commentaries.new(commentary_params)
+    @commentary = Commentary.new(commentary_params)
+    @commentary.user = current_user
 
     respond_to do |format|
       if @commentary.save
-        format.html { redirect_to @commentary, notice: 'Commentary was successfully created.' }
+        format.html { redirect_to @commentary.maze, notice: 'Comentario criado com sucesso.' }
         format.json { render :show, status: :created, location: @commentary }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class CommentariesController < ApplicationController
   def update
     respond_to do |format|
       if @commentary.update(commentary_params)
-        format.html { redirect_to @commentary, notice: 'Commentary was successfully updated.' }
+        format.html { redirect_to @commentary, notice: 'Comentario atualizado com sucesso.' }
         format.json { render :show, status: :ok, location: @commentary }
       else
         format.html { render :edit }
@@ -56,7 +59,7 @@ class CommentariesController < ApplicationController
   def destroy
     @commentary.destroy
     respond_to do |format|
-      format.html { redirect_to commentaries_url, notice: 'Commentary was successfully destroyed.' }
+      format.html { redirect_to commentaries_url, notice: 'Comentario destruído com sucesso.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +72,6 @@ class CommentariesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def commentary_params
-      params.fetch(:commentary, {})
+      params.require(:commentary).permit(:comment, :maze_id)
     end
 end

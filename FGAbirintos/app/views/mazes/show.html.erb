@@ -43,15 +43,14 @@
 
 <% comments = @maze.commentaries %>
 <% if !comments.empty? %>
-  <h3>:commentaries</h3>
-<% end %>
-
-<% comments.each do |item| %>
   <hr>
-  <%= item.comments%>
-  <hr>  
-  <br>
+  <h3>Comentários</h3>
+  <hr>
+  <% comments.each do |item| %>
+      <dt><strong><%= item.user.email %>:</strong></dt>
+      <%= text_field_tag :comment, item.comment, size:80 %>
+    <hr>  
+  <% end %>
 <% end %>
 
-<%= link_to 'Novo Comentário',
-              new_commentary_path(comments), :class => 'btn btn-default'  %>
+<%= link_to "Novo Comentário", new_commentary_path(:maze_id => @maze.id), :class => 'btn btn-default'  %>
