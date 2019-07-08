@@ -20,8 +20,6 @@
   <dt><strong><%= model_class.human_attribute_name(:solutionMaze) %>:</strong></dt>
   <dd><%maze = @maze.solutionMaze %></dd>
   <% maze = maze.split(",") %>
-  <% puts maze.size%>
-  <% pp maze%>
   <% i = 0 %>
   <% until i==@maze.sizeMaze %>
     <% j = 0 %>
