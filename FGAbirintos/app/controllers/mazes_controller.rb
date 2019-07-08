@@ -54,19 +54,25 @@ class MazesController < ApplicationController
     #____________________________________________
   end
 
-  def indexOutOfBound(x,y)
-    if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze
-      return true
+  def indexOutOfBound(x,y,xf,ir_baixo)
+    if ir_baixo
+      if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze || x>xf
+        return true
+      end
+      return false
+    else
+      if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze || x<xf
+        return true
+      end
+      return false
     end
-    return false
   end
 
   def generateSolutionMaze # Xpartida = 0 Xchegada = @maze.sizeMaze-1
-    yi = 0
     xi = @maze.startingPoint.to_i
-
-    yf = @maze.sizeMaze-1
+    yi = 0
     xf = @maze.endPoint.to_i
+    yf = @maze.sizeMaze-1
     @answerMaze[xi][yi] = 1
     ir_baixo = false
     #Set de Variaveis ____________________________________
@@ -77,20 +83,21 @@ class MazesController < ApplicationController
     while xi!=xf || yi!=yf
       moeda = rand()
       if ir_baixo && moeda>=0.5
-        if !indexOutOfBound(xi+1,yi)
+        if !indexOutOfBound(xi+1,yi,xf,ir_baixo)
           xi += 1
         end
        elsif !ir_baixo && moeda>=0.5
-        if !indexOutOfBound(xi-1,yi)
+        if !indexOutOfBound(xi-1,yi,xf,ir_baixo)
           xi-=1
         end
       else#ir Direita
-        if !indexOutOfBound(xi,yi+1)
+        if !indexOutOfBound(xi,yi+1,xf,ir_baixo)
           yi+=1
         end
       end
       @answerMaze[xi][yi] = 1
     end
+    pp @answerMaze
   end
   def generateMaze
     validateMaze
