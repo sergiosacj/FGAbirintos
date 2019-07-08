@@ -33,7 +33,7 @@ class MazesController < ApplicationController
       @maze.startingPoint = 0
     end
     if @maze.endPoint>=@maze.sizeMaze.to_s || @maze.endPoint<"0"
-      @maze.endPoint = @maze.sizeMaze*@maze.sizeMaze-1
+      @maze.endPoint = @maze.sizeMaze-1
     end
   end
 
@@ -44,7 +44,7 @@ class MazesController < ApplicationController
     i = 0
     until i==@maze.sizeMaze
       @maze.adjacencyList+=@generatedMaze[i].join(",")
-      @maze.solutionMaze+=@generatedMaze[i].join(",")
+      @maze.solutionMaze+=@answerMaze[i].join(",")
       if i!= @maze.sizeMaze-1
           @maze.adjacencyList+=","
           @maze.solutionMaze+=","
@@ -54,20 +54,62 @@ class MazesController < ApplicationController
     #____________________________________________
   end
 
+  def indexOutOfBound(x,y)
+    if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze
+      return true
+    end
+    return false
+  end
+
+  def generateSolutionMaze # Xpartida = 0 Xchegada = @maze.sizeMaze-1
+    yi = 0
+    xi = @maze.startingPoint.to_i
+
+    yf = @maze.sizeMaze-1
+    xf = @maze.endPoint.to_i
+    @answerMaze[xi][yi] = 1
+    ir_baixo = false
+    #Set de Variaveis ____________________________________
+    if xi < xf #entao tenho que descer
+      ir_baixo = true
+    end
+
+    while xi!=xf || yi!=yf
+      moeda = rand()
+      if ir_baixo && moeda>=0.5
+        if !indexOutOfBound(xi+1,yi)
+          xi += 1
+        end
+       elsif !ir_baixo && moeda>=0.5
+        if !indexOutOfBound(xi-1,yi)
+          xi-=1
+        end
+      else#ir Direita
+        if !indexOutOfBound(xi,yi+1)
+          yi+=1
+        end
+      end
+      @answerMaze[xi][yi] = 1
+    end
+  end
   def generateMaze
     validateMaze
     # ------ Gerador do labirinto Com 0
     i = 0
     @generatedMaze = []
+    @answerMaze = []
     until i==@maze.sizeMaze
       j = 0
       @generatedMaze.push([])
+      @answerMaze.push([])
       until j==@maze.sizeMaze
         @generatedMaze[i].push(0)
+        @answerMaze[i].push(0)
         j+=1
       end
       i+=1
     end
+    generateSolutionMaze
     #____________________________________ Preencher Labirinto
     arraysToString
   end
