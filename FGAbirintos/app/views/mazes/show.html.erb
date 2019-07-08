@@ -11,7 +11,7 @@
   <% until i==@maze.sizeMaze %>
     <% j = 0 %>
     <% until j==@maze.sizeMaze %>
-      <%= maze[i+j]+" " %>
+      <%= maze[i*@maze.sizeMaze+j]+" " %>
       <% j+=1 %>
     <% end %>
     <br>
@@ -20,11 +20,13 @@
   <dt><strong><%= model_class.human_attribute_name(:solutionMaze) %>:</strong></dt>
   <dd><%maze = @maze.solutionMaze %></dd>
   <% maze = maze.split(",") %>
+  <% puts maze.size%>
+  <% pp maze%>
   <% i = 0 %>
   <% until i==@maze.sizeMaze %>
     <% j = 0 %>
     <% until j==@maze.sizeMaze %>
-      <%= maze[i+j]+" " %>
+      <%= maze[i*@maze.sizeMaze+j]+" " %>
       <% j+=1 %>
     <% end %>
     <br>
@@ -49,7 +51,7 @@
   <% comments.each do |item| %>
       <dt><strong><%= item.user.email %>:</strong></dt>
       <%= text_field_tag :comment, item.comment, size:80 %>
-    <hr>  
+    <hr>
   <% end %>
 <% end %>
 
