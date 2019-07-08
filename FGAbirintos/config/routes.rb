@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'forum/index'
   resources :mazes
+  resources :commentaries
   devise_for :users
   get 'welcome/index'
   root 'welcome#index'
