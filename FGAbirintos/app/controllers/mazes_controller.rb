@@ -193,7 +193,7 @@ class MazesController < ApplicationController
       while j<@maze.sizeMaze
         if checkNeighbour(i,j) &&@generatedMaze[i][j] == 0
           @generatedMaze[i][j] = 1
-          i -= -1
+          i -= 2# Faz i = i - 2 pois logo a baixo tem um i++, no fim das contas ele volta uma linha
           break
         end
         j+=1
