@@ -73,10 +73,10 @@ class MazesController < ApplicationController
       @maze.sizeMaze = 78
     end
 
-    if @maze.startingPoint>=@maze.sizeMaze.to_s || @maze.startingPoint<"0"
+    if @maze.startingPoint.to_i>=@maze.sizeMaze || @maze.startingPoint.to_i<0 
       @maze.startingPoint = 0
     end
-    if @maze.endPoint>=@maze.sizeMaze.to_s || @maze.endPoint<"0"
+    if @maze.endPoint.to_i>=@maze.sizeMaze.to_i || @maze.endPoint.to_i<0
       @maze.endPoint = @maze.sizeMaze-1
     end
   end
@@ -200,7 +200,7 @@ class MazesController < ApplicationController
           #puts "____________________________________________"
           #pp @generatedMaze
           #puts "____________________________________________"
-          i -= 2
+          i = -1
           #break
         end
         j+=1
