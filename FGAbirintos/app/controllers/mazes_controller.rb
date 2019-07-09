@@ -54,6 +54,31 @@ class MazesController < ApplicationController
     #____________________________________________
   end
 
+  def checaVizinhos(x,y)
+    dx = [0,1,0,-1]
+  	dy = [1,0,-1,0]
+    nVizinhos1 = 0
+    a = 0
+    while a<4
+      if outBound(x+dx[a],y+dy[a])
+        a+=1
+        next
+      end
+      if @generatedMaze[x+dx[a]][y+dy[a]] == 1
+  			nVizinhos1 +=1
+      end
+      a+=1
+    end
+    return nVizinhos1==1
+  end
+
+  def outBound(x,y)
+  	if x<0 || y<0 || x>=@maze.sizeMaze || y>=@maze.sizeMaze
+  		return true
+  	end
+  	return false
+  end
+
   def indexOutOfBound(x,y,xf,ir_baixo)
     if ir_baixo
       if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze || x>xf
@@ -74,6 +99,7 @@ class MazesController < ApplicationController
     xf = @maze.endPoint.to_i
     yf = @maze.sizeMaze-1
     @answerMaze[xi][yi] = 1
+    @generatedMaze[xi][yi] = 1
     ir_baixo = false
     #Set de Variaveis ____________________________________
     if xi < xf #entao tenho que descer
@@ -96,9 +122,10 @@ class MazesController < ApplicationController
         end
       end
       @answerMaze[xi][yi] = 1
+      @generatedMaze[xi][yi] = 1
     end
-    pp @answerMaze
   end
+
   def generateMaze
     validateMaze
     # ------ Gerador do labirinto Com 0
@@ -117,6 +144,25 @@ class MazesController < ApplicationController
       i+=1
     end
     generateSolutionMaze
+    #____________________________________________
+    i = 0
+    j = 0
+    while i<@maze.sizeMaze
+      j=0
+      while j<@maze.sizeMaze
+        if checaVizinhos(i,j) &&@generatedMaze[i][j] == 0
+          @generatedMaze[i][j] = 1
+          #puts "____________________________________________"
+          #pp @generatedMaze
+          #puts "____________________________________________"
+          i = -1
+          #break
+        end
+        j+=1
+      end
+      i+=1
+    end
+
     #____________________________________ Preencher Labirinto
     arraysToString
   end
