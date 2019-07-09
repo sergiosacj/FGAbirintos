@@ -5,7 +5,7 @@ class MazesController < ApplicationController
   # GET /mazes
   # GET /mazes.json
   def index
-    @mazes = current_user.mazes
+    @mazes = current_user.mazes.paginate(:page=>params[:page],:per_page=>8)
   end
 
   # GET /mazes/1
@@ -72,11 +72,15 @@ class MazesController < ApplicationController
     elsif @maze.sizeMaze>=78
       @maze.sizeMaze = 78
     end
-
-    if @maze.startingPoint.to_i>=@maze.sizeMaze || @maze.startingPoint.to_i<0 
+    if @maze.startingPoint.nil? || @maze.startingPoint.length==0
+      @maze.startingPoint = 0
+    elsif @maze.startingPoint>=@maze.sizeMaze.to_s || @maze.startingPoint.to_i<0
       @maze.startingPoint = 0
     end
-    if @maze.endPoint.to_i>=@maze.sizeMaze.to_i || @maze.endPoint.to_i<0
+    if @maze.endPoint.nil? || @maze.endPoint.length==0
+      @maze.endPoint = @maze.sizeMaze-1
+
+    elsif @maze.endPoint>=@maze.sizeMaze.to_s || @maze.endPoint.to_i<0
       @maze.endPoint = @maze.sizeMaze-1
     end
   end
@@ -104,7 +108,7 @@ class MazesController < ApplicationController
     nVizinhos1 = 0
     a = 0
     while a<4
-      if outBound(x+dx[a],y+dy[a])
+      if indexOutOfBound(x+dx[a],y+dy[a])
         a+=1
         next
       end
@@ -115,15 +119,7 @@ class MazesController < ApplicationController
     end
     return nVizinhos1==1
   end
-
-  def outBound(x,y)
-  	if x<0 || y<0 || x>=@maze.sizeMaze || y>=@maze.sizeMaze
-  		return true
-  	end
-  	return false
-  end
-
-  def indexOutOfBound(x,y,xf,ir_baixo)
+  def indexOutOfBound(x,y,xf=@maze.sizeMaze,ir_baixo=true)
     if ir_baixo
       if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze || x>xf
         return true
@@ -197,11 +193,8 @@ class MazesController < ApplicationController
       while j<@maze.sizeMaze
         if checaVizinhos(i,j) &&@generatedMaze[i][j] == 0
           @generatedMaze[i][j] = 1
-          #puts "____________________________________________"
-          #pp @generatedMaze
-          #puts "____________________________________________"
           i = -1
-          #break
+          break
         end
         j+=1
       end
