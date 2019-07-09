@@ -102,10 +102,10 @@ class MazesController < ApplicationController
     #____________________________________________
   end
 
-  def checaVizinhos(x,y)
+  def checkNeighbour(x,y)
     dx = [0,1,0,-1]
   	dy = [1,0,-1,0]
-    nVizinhos1 = 0
+    numberNeighbour1 = 0
     a = 0
     while a<4
       if indexOutOfBound(x+dx[a],y+dy[a])
@@ -113,14 +113,14 @@ class MazesController < ApplicationController
         next
       end
       if @generatedMaze[x+dx[a]][y+dy[a]] == 1
-  			nVizinhos1 +=1
+  			numberNeighbour1 +=1
       end
       a+=1
     end
-    return nVizinhos1==1
+    return numberNeighbour1==1
   end
-  def indexOutOfBound(x,y,xf=@maze.sizeMaze,ir_baixo=true)
-    if ir_baixo
+  def indexOutOfBound(x,y,xf=@maze.sizeMaze,go_down=true)
+    if go_down
       if x<0 || x>=@maze.sizeMaze || y<0 || y>=@maze.sizeMaze || x>xf
         return true
       end
@@ -141,24 +141,24 @@ class MazesController < ApplicationController
     @answerPath = []
     @answerMaze[xi][yi] = 1
     @generatedMaze[xi][yi] = 1
-    ir_baixo = false
+    go_down = false
     #Set de Variaveis ____________________________________
     if xi < xf #entao tenho que descer
-      ir_baixo = true
+      go_down = true
     end
 
     while xi!=xf || yi!=yf
-      moeda = rand()
-      if ir_baixo && moeda>=0.5
-        if !indexOutOfBound(xi+1,yi,xf,ir_baixo)
+      coin = rand()
+      if go_down && coin>=0.5
+        if !indexOutOfBound(xi+1,yi,xf,go_down)
           xi += 1
         end
-      elsif !ir_baixo && moeda>=0.5
-        if !indexOutOfBound(xi-1,yi,xf,ir_baixo)
+      elsif !go_down && coin>=0.5
+        if !indexOutOfBound(xi-1,yi,xf,go_down)
           xi-=1
         end
       else#ir Direita
-        if !indexOutOfBound(xi,yi+1,xf,ir_baixo)
+        if !indexOutOfBound(xi,yi+1,xf,go_down)
           yi+=1
         end
       end
@@ -191,9 +191,9 @@ class MazesController < ApplicationController
     while i<@maze.sizeMaze
       j=0
       while j<@maze.sizeMaze
-        if checaVizinhos(i,j) &&@generatedMaze[i][j] == 0
+        if checkNeighbour(i,j) &&@generatedMaze[i][j] == 0
           @generatedMaze[i][j] = 1
-          i = -1
+          i -= -1
           break
         end
         j+=1
