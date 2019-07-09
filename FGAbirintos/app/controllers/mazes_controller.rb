@@ -69,7 +69,7 @@ class MazesController < ApplicationController
       @maze.sizeMaze = 3
     elsif @maze.sizeMaze<3
       @maze.sizeMaze = 3
-    elsif @maze.sizeMaze>=101
+    elsif @maze.sizeMaze>=78
       @maze.sizeMaze = 78
     end
 
@@ -200,7 +200,7 @@ class MazesController < ApplicationController
           #puts "____________________________________________"
           #pp @generatedMaze
           #puts "____________________________________________"
-          i = -1
+          i -= 2
           #break
         end
         j+=1
