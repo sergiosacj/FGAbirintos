@@ -22,11 +22,55 @@ class MazesController < ApplicationController
   def edit
   end
 
+  # POST /mazes
+  # POST /mazes.json
+  def create
+    @maze = current_user.mazes.new(maze_params)
+    generateMaze
+    respond_to do |format|
+      if @maze.save
+        format.html { redirect_to @maze, notice: 'Labirinto criado com sucesso.' }
+        format.json { render :show, status: :created, location: @maze }
+      else
+        format.html { render :new }
+        format.json { render json: @maze.errors, status: :unprocessable_entity }
+      end
+    end
+    #respond_to do |format|
+    #format.html { redirect_to new_maze_path}
+  end
+
+  # PATCH/PUT /mazes/1
+  # PATCH/PUT /mazes/1.json
+  def update
+    respond_to do |format|
+      if @maze.update(maze_params)
+        format.html { redirect_to @maze, notice: 'Labirinto atualizado com sucesso.' }
+        format.json { render :show, status: :ok, location: @maze }
+      else
+        format.html { render :edit }
+        format.json { render json: @maze.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /mazes/1
+  # DELETE /mazes/1.json
+  def destroy
+    @maze.destroy
+    respond_to do |format|
+      format.html { redirect_to mazes_url, notice: 'Labirinto destruído com sucesso.' }
+      format.json { head :no_content }
+    end
+  end
+
   def validateMaze
-    if @maze.sizeMaze<3
+    if @maze.sizeMaze.nil?
+      @maze.sizeMaze = 3
+    elsif @maze.sizeMaze<3
       @maze.sizeMaze = 3
     elsif @maze.sizeMaze>=101
-      @maze.sizeMaze = 100
+      @maze.sizeMaze = 78
     end
 
     if @maze.startingPoint>=@maze.sizeMaze.to_s || @maze.startingPoint<"0"
@@ -98,6 +142,7 @@ class MazesController < ApplicationController
     yi = 0
     xf = @maze.endPoint.to_i
     yf = @maze.sizeMaze-1
+    @answerPath = []
     @answerMaze[xi][yi] = 1
     @generatedMaze[xi][yi] = 1
     ir_baixo = false
@@ -112,7 +157,7 @@ class MazesController < ApplicationController
         if !indexOutOfBound(xi+1,yi,xf,ir_baixo)
           xi += 1
         end
-       elsif !ir_baixo && moeda>=0.5
+      elsif !ir_baixo && moeda>=0.5
         if !indexOutOfBound(xi-1,yi,xf,ir_baixo)
           xi-=1
         end
@@ -165,48 +210,6 @@ class MazesController < ApplicationController
 
     #____________________________________ Preencher Labirinto
     arraysToString
-  end
-
-  # POST /mazes
-  # POST /mazes.json
-  def create
-    @maze = current_user.mazes.new(maze_params)
-    generateMaze
-    respond_to do |format|
-      if @maze.save
-        format.html { redirect_to @maze, notice: 'Labirinto criado com sucesso.' }
-        format.json { render :show, status: :created, location: @maze }
-      else
-        format.html { render :new }
-        format.json { render json: @maze.errors, status: :unprocessable_entity }
-      end
-    end
-    #respond_to do |format|
-    #format.html { redirect_to new_maze_path}
-  end
-
-  # PATCH/PUT /mazes/1
-  # PATCH/PUT /mazes/1.json
-  def update
-    respond_to do |format|
-      if @maze.update(maze_params)
-        format.html { redirect_to @maze, notice: 'Labirinto atualizado com sucesso.' }
-        format.json { render :show, status: :ok, location: @maze }
-      else
-        format.html { render :edit }
-        format.json { render json: @maze.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /mazes/1
-  # DELETE /mazes/1.json
-  def destroy
-    @maze.destroy
-    respond_to do |format|
-      format.html { redirect_to mazes_url, notice: 'Labirinto destruído com sucesso.' }
-      format.json { head :no_content }
-    end
   end
 
   private
